@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap');
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.app-header {
+    margin-top:20px;
+    font-family: 'Rubik', sans-serif;
+    /* color:blue; */
+    font-weight: bold;
+    font-size:3rem;
+}
+.mainContainer {
+    display:flex;
+    flex-flow: column wrap;
+    align-items:center;
+    justify-content:center;
+}
+
+.text-input-field {
+width:350px
+}
+
+
+.search-btn
+{
+color:red;
+
+}
+
+.statistics-data-header{
+    
+    font-size: 1.4rem;
+}
+
+.statistics-data{
+font-family: 'Lato', sans-serif;
+font-size: 2rem;
+}
+
+.form-control{
+    /* border: solid red 2px; */
+    margin-top: 40px;
+}
