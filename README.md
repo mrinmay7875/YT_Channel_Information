@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Here you can search about your favourite Youtube chnnels
+Site has been deployed [here](https://yt-channel-info.netlify.app/)
+
 ## Available Scripts
 
 In the project directory, you can run:
