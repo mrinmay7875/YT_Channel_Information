@@ -22,5 +22,5 @@ exports.handler = function (event, context, callback) {
         body: JSON.stringify(response.data),
       });
     })
-    .catch((ex) => callback(ex));
+    .catch((error) => callback(error));
 };

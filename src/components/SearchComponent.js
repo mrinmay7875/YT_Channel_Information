@@ -3,20 +3,16 @@ import axios from "axios";
 import "../stylesheets/appstyles.css";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-// import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
-// import clsx from "clsx";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import dotenv from "dotenv";
 
 dotenv.config();
-// const url1 = "https://youtube.googleapis.com/youtube/v3/search";
-// const url2 = "https://youtube.googleapis.com/youtube/v3/channels";
 
 class SearchComponent extends Component {
   state = {
@@ -65,8 +61,7 @@ class SearchComponent extends Component {
             searchTerm: " ",
           });
 
-          //get the statiscs data about the channel
-          //we have nested this second axios inside the first otherwise the channelId will be undefined
+        //Second request fetches statistics data from the API
           axios
             .get("/.netlify/functions/youtubeAPI_2", {
               params: {
@@ -83,7 +78,6 @@ class SearchComponent extends Component {
               });
             })
             .catch(() => {
-              // console.log("Channel information could not found");
               this.setState({ errorMessage: "Channel Not found!" });
               setInterval(() => {
                 this.setState({ errorMessage: " " });
@@ -95,7 +89,6 @@ class SearchComponent extends Component {
           setInterval(() => {
             this.setState({ errorMessage: " " });
           }, 3000);
-          // console.log("Channel Information not found!!");
         });
     } catch (error) {
       this.setState({ errorMessage: "Channel Not found!" });
