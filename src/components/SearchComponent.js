@@ -15,8 +15,8 @@ import Button from "@material-ui/core/Button";
 import dotenv from "dotenv";
 
 dotenv.config();
-const url1 = "https://youtube.googleapis.com/youtube/v3/search";
-const url2 = "https://youtube.googleapis.com/youtube/v3/channels";
+// const url1 = "https://youtube.googleapis.com/youtube/v3/search";
+// const url2 = "https://youtube.googleapis.com/youtube/v3/channels";
 
 class SearchComponent extends Component {
   state = {
@@ -50,11 +50,8 @@ class SearchComponent extends Component {
       }
 
       axios
-        .get(url1, {
+        .get("/.netlify/functions/youtubeAPI_1", {
           params: {
-            part: "snippet",
-            maxResults: 1,
-            key: process.env.REACT_APP_API_KEY,
             q: this.state.searchTerm,
           },
         })
@@ -71,11 +68,9 @@ class SearchComponent extends Component {
           //get the statiscs data about the channel
           //we have nested this second axios inside the first otherwise the channelId will be undefined
           axios
-            .get(url2, {
+            .get("/.netlify/functions/youtubeAPI_2", {
               params: {
-                part: "statistics",
                 id: this.state.channelId,
-                key: process.env.REACT_APP_API_KEY,
               },
             })
             .then((response) => {
