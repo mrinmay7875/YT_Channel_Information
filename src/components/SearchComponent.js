@@ -10,6 +10,8 @@ import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Loader from "react-loader-spinner";
+
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -110,15 +112,31 @@ class SearchComponent extends Component {
 
   render() {
     let isLoadingornot = this.state.isLoading;
-    let cardComponent;
+    let cardContent;
 
     if (isLoadingornot) {
-      cardComponent = "The content is loading...Pls wait";
+      cardContent = (
+        <Loader
+          style={{ marginTop: "50px" }}
+          type="ThreeDots"
+          color="#00BFFF"
+          height={100}
+          width={100}
+        />
+      );
     } else {
       if (this.state.errorMessage) {
-        cardComponent = "The channel not found!!";
+        cardContent = (
+          <Typography
+            style={{ marginTop: "100px" }}
+            variant="h4"
+            color="initial"
+          >
+            {this.state.errorMessage}
+          </Typography>
+        );
       } else {
-        cardComponent = (
+        cardContent = (
           <Card
             style={{
               marginTop: "30px",
@@ -246,12 +264,12 @@ class SearchComponent extends Component {
             </Button>
           </Box>
         </form>
-
+        {/* 
         <Typography variant="h3" color="initial">
           {this.state.errorMessage}
-        </Typography>
+        </Typography> */}
 
-        {cardComponent}
+        {cardContent}
       </div>
     );
   }
