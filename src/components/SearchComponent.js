@@ -27,7 +27,7 @@ class SearchComponent extends Component {
     viewCount: "",
     videoCount: "",
     displayCard: "none",
-    loadingMessage: "block",
+    isLoading: false,
   };
 
   handleOnChange = (event) => {
@@ -35,6 +35,7 @@ class SearchComponent extends Component {
   };
 
   handleOnSubmit = (event) => {
+    this.setState({ isLoading: true });
     this.setState({ displayCard: "none" });
     try {
       if (
@@ -44,7 +45,7 @@ class SearchComponent extends Component {
       ) {
         throw new Error("Invalid search term");
       }
-
+      // this.state({ isLoading: true });
       axios
         .get("/.netlify/functions/youtubeAPI_1", {
           params: {
@@ -61,7 +62,7 @@ class SearchComponent extends Component {
             searchTerm: " ",
           });
 
-        //Second request fetches statistics data from the API
+          //Second request fetches statistics data from the API
           axios
             .get("/.netlify/functions/youtubeAPI_2", {
               params: {
@@ -75,23 +76,30 @@ class SearchComponent extends Component {
                   response.data.items[0].statistics.subscriberCount,
                 videoCount: response.data.items[0].statistics.videoCount,
                 displayCard: "block",
+                isLoading: false,
               });
             })
             .catch(() => {
-              this.setState({ errorMessage: "Channel Not found!" });
+              this.setState({
+                errorMessage: "Channel Not found!",
+                isLoading: false,
+              });
               setInterval(() => {
                 this.setState({ errorMessage: " " });
               }, 3000);
             });
         })
         .catch(() => {
-          this.setState({ errorMessage: "Channel Not found!" });
+          this.setState({
+            errorMessage: "Channel Not found!",
+            isLoading: false,
+          });
           setInterval(() => {
             this.setState({ errorMessage: " " });
           }, 3000);
         });
     } catch (error) {
-      this.setState({ errorMessage: "Channel Not found!" });
+      this.setState({ errorMessage: "Channel Not found!", isLoading: false });
       setInterval(() => {
         this.setState({ errorMessage: " " });
       }, 3000);
@@ -101,6 +109,93 @@ class SearchComponent extends Component {
   };
 
   render() {
+    let isLoadingornot = this.state.isLoading;
+    let cardComponent;
+
+    if (isLoadingornot) {
+      cardComponent = "The content is loading...Pls wait";
+    } else {
+      if (this.state.errorMessage) {
+        cardComponent = "The channel not found!!";
+      } else {
+        cardComponent = (
+          <Card
+            style={{
+              marginTop: "30px",
+              minwidth: "450px",
+              maxWidth: "500px",
+              textAlign: "left",
+              backgroundColor: "#d0e8f2",
+              display: this.state.displayCard,
+              minHeight: "70vh",
+            }}
+          >
+            <CardActionArea>
+              {this.state.channelThumbnail ? (
+                <CardMedia
+                  style={{ height: 350 }}
+                  image={this.state.channelThumbnail}
+                  title="Youtube Channel Thumbnail"
+                />
+              ) : (
+                <CircularProgress />
+              )}
+
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {this.state.channelName}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {this.state.channelDescription}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+
+            <Box
+              className="statistics-data-header"
+              borderRadius={5}
+              component="span"
+              display="block"
+              p={1}
+              m={1}
+              bgcolor="#79a3b1"
+            >
+              Total Subscribers :-
+              <div className="statistics-data">
+                {this.state.subscriberCount}
+              </div>
+            </Box>
+            <Box
+              className="statistics-data-header"
+              borderRadius={5}
+              component="span"
+              display="block"
+              p={1}
+              m={1}
+              bgcolor="#79a3b1"
+            >
+              Total Videos uploaded :-
+              <div className="statistics-data">
+                {this.state.videoCount || 23}
+              </div>
+            </Box>
+            <Box
+              className="statistics-data-header"
+              borderRadius={5}
+              component="span"
+              display="block"
+              p={1}
+              m={1}
+              bgcolor="#79a3b1"
+            >
+              Total Views :-
+              <div className="statistics-data"> {this.state.viewCount}</div>
+            </Box>
+          </Card>
+        );
+      }
+    }
+
     return (
       <div className="mainContainer">
         <Typography className="app-header" variant="h4" gutterBottom>
@@ -156,75 +251,7 @@ class SearchComponent extends Component {
           {this.state.errorMessage}
         </Typography>
 
-        <Card
-          style={{
-            marginTop: "30px",
-            minwidth: "450px",
-            maxWidth: "500px",
-            textAlign: "left",
-            backgroundColor: "#d0e8f2",
-            display: this.state.displayCard,
-            minHeight: "70vh",
-          }}
-        >
-          <CardActionArea>
-            {this.state.channelThumbnail ? (
-              <CardMedia
-                style={{ height: 350 }}
-                image={this.state.channelThumbnail}
-                title="Youtube Channel Thumbnail"
-              />
-            ) : (
-              <CircularProgress />
-            )}
-
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {this.state.channelName}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {this.state.channelDescription}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-
-          <Box
-            className="statistics-data-header"
-            borderRadius={5}
-            component="span"
-            display="block"
-            p={1}
-            m={1}
-            bgcolor="#79a3b1"
-          >
-            Total Subscribers :-
-            <div className="statistics-data">{this.state.subscriberCount}</div>
-          </Box>
-          <Box
-            className="statistics-data-header"
-            borderRadius={5}
-            component="span"
-            display="block"
-            p={1}
-            m={1}
-            bgcolor="#79a3b1"
-          >
-            Total Videos uploaded :-
-            <div className="statistics-data">{this.state.videoCount || 23}</div>
-          </Box>
-          <Box
-            className="statistics-data-header"
-            borderRadius={5}
-            component="span"
-            display="block"
-            p={1}
-            m={1}
-            bgcolor="#79a3b1"
-          >
-            Total Views :-
-            <div className="statistics-data"> {this.state.viewCount}</div>
-          </Box>
-        </Card>
+        {cardComponent}
       </div>
     );
   }
