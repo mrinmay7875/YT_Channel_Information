@@ -9,7 +9,7 @@ This web application will present you with a variety
 
 **Client:**  HTML, CSS, Javascript, React, Material UI
 
-**Server:** YouTube API
+**Server:** YouTube API, Netlify functions
 
   
 ## Live Demo
