@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/aa645380-5df1-4e63-83e6-83d1b68dfe74/deploy-status)](https://app.netlify.com/sites/youtube-channel-info-1014680/deploys)
 
 # Youtube Channel Statistics
 This web application will present you with a variety
